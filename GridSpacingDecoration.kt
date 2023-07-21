@@ -104,6 +104,7 @@ public class GridSpacingDecoration extends RecyclerView.ItemDecoration {
 
             if (view.getLayoutParams() instanceof GridLayoutManager.LayoutParams) {
                 spanSize = ((GridLayoutManager.LayoutParams) view.getLayoutParams()).getSpanSize();
+                // TODO RecyclerView有布局刷新动画时，布局刷新时仍会返回旧值，待改正
                 columnIndex = ((GridLayoutManager.LayoutParams) view.getLayoutParams()).getSpanIndex();
             } else if (view.getLayoutParams() instanceof StaggeredGridLayoutManager.LayoutParams) {
                 spanSize = 1;
@@ -143,7 +144,8 @@ public class GridSpacingDecoration extends RecyclerView.ItemDecoration {
             if (isHorizontal) { //水平布局下，底部偏移需要根据该item在列中的index计算
                 top = columnIndex * verticalSpacing / columnCount;
                 bottom = verticalSpacing - (columnIndex + 1) * verticalSpacing / columnCount;
-            } else if (!inBottomLine) { //垂直布局下，只要不在最后一行，直接设置底部偏移为垂直间隔
+//            } else if (!inBottomLine) { //垂直布局下，只要不在最后一行，直接设置底部偏移为垂直间隔 //TODO GridLayoutManager垂直布局下垂直间距存在问题，待修复
+            } else { //垂直布局下，只要不在最后一行，直接设置底部偏移为垂直间隔
                 bottom = verticalSpacing;
             }
 
